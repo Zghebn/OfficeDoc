@@ -125,8 +125,8 @@
 			\centering
 			{ \g_govdoc_mark_format_tl \govdoc_use_mark: \par }
 			\skip_vertical:n { 1.5 \baselineskip }
-			{ \g_govdoc_doc_number_format_tl \tl_use:N \l_govdoc_info_doc_number_tl \par }
-			\skip_vertical:n { 4mm }
+			{ \g_govdoc_doc_number_format_tl \tl_use:N \l_govdoc_info_doc_number_tl }
+			\skip_vertical:n { -7mm }
 			{ \color { govdocred } \rule { \textwidth } { 0.35mm } \par }
 		\group_end:
 		\skip_vertical:n { 1.5 \baselineskip }
