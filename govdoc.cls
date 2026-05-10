@@ -1,4 +1,5 @@
-%!TEX root = notice-example
+% LaTeX 编辑部 / LaTeX 实验室
+% Zghebn@qq.com
 \NeedsTeXFormat{LaTeX2e}[2025-11-01]
 \ProvidesExplClass
 	{govdoc}
@@ -32,7 +33,11 @@
 \RequirePackage { xcolor }
 \RequirePackage { fancyhdr }
 
+
+\tl_const:Nn \l_govdoc_en_body_font_tl { Times ~ New ~ Roman }
+
 \exp_args:NV \setCJKmainfont \l_govdoc_format_font_tl
+\exp_args:NV \setmainfont \l_govdoc_en_body_font_tl
 \exp_args:NNV \newCJKfontfamily \govdoc_titlefont: \l_govdoc_format_titlefont_tl
 
 \geometry
@@ -51,7 +56,9 @@
 
 \tl_new:N \l_govdoc_info_office_tl
 \tl_new:N \l_govdoc_info_mark_tl
-\tl_new:N \l_govdoc_info_doc_number_tl
+\tl_new:N \l_govdoc_info_doc_prefix_tl
+\tl_new:N \l_govdoc_info_doc_year_tl
+\tl_new:N \l_govdoc_info_doc_sequence_tl
 \tl_new:N \l_govdoc_info_title_tl
 \tl_new:N \l_govdoc_info_recipient_tl
 \tl_new:N \l_govdoc_info_date_tl
@@ -62,7 +69,9 @@
 	{
 		office       .tl_set:N = \l_govdoc_info_office_tl,
 		mark         .tl_set:N = \l_govdoc_info_mark_tl,
-		doc-number   .tl_set:N = \l_govdoc_info_doc_number_tl,
+		doc-prefix   .tl_set:N = \l_govdoc_info_doc_prefix_tl,
+		doc-year     .tl_set:N = \l_govdoc_info_doc_year_tl,
+		doc-sequence .tl_set:N = \l_govdoc_info_doc_sequence_tl,
 		title        .tl_set:N = \l_govdoc_info_title_tl,
 		recipient    .tl_set:N = \l_govdoc_info_recipient_tl,
 		date         .tl_set:N = \l_govdoc_info_date_tl,
@@ -75,7 +84,7 @@
 \tl_const:Nn \g_govdoc_doc_number_format_tl
 	{ \normalfont \zihao { 3 } }
 \tl_const:Nn \g_govdoc_title_format_tl
-	{ \govdoc_titlefont: \zihao { 2 } }
+	{ \govdoc_titlefont: \bfseries\zihao { 2 } }
 \tl_const:Nn \g_govdoc_body_format_tl
 	{ \normalfont \zihao { 3 } }
 \tl_const:Nn \g_govdoc_imprint_format_tl
@@ -93,8 +102,8 @@
 		\fancyhf {}
 		\renewcommand { \headrulewidth } { 0pt }
 		\renewcommand { \footrulewidth } { 0pt }
-		\fancyfoot [ RO ] { { \normalfont \zihao { 4 } -~\thepage~- } \skip_horizontal:n { 1em } }
-		\fancyfoot [ LE ] { \skip_horizontal:n { 1em } { \normalfont \zihao { 4 } -~\thepage~- } }
+		\fancyfoot [ RO ] { { \normalfont \zihao { 4 } -- ~\thepage{} ~ -- } \skip_horizontal:n { 1em } }
+		\fancyfoot [ LE ] { \skip_horizontal:n { 1em } { \normalfont \zihao { 4 } -- ~\thepage{} ~ -- } }
 	}
 
 \cs_new_protected:Npn \govdoc_body_font:
@@ -125,7 +134,12 @@
 			\centering
 			{ \g_govdoc_mark_format_tl \govdoc_use_mark: \par }
 			\skip_vertical:n { 1.5 \baselineskip }
-			{ \g_govdoc_doc_number_format_tl \tl_use:N \l_govdoc_info_doc_number_tl }
+			{
+				\g_govdoc_doc_number_format_tl
+				\tl_use:N \l_govdoc_info_doc_prefix_tl
+				〔 \tl_use:N \l_govdoc_info_doc_year_tl 〕
+				\tl_use:N \l_govdoc_info_doc_sequence_tl 号
+			}
 			\skip_vertical:n { -7mm }
 			{ \color { govdocred } \rule { \textwidth } { 0.35mm } \par }
 		\group_end:
@@ -148,6 +162,7 @@
 	{
 		\par \skip_vertical:n { \baselineskip }
 		\noindent
+		\vfill
 		\hfill
 		\begin { minipage } { 0.58 \textwidth }
 			\centering
